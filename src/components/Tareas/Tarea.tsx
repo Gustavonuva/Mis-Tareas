@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
-import { Badge, Button, Col, Row, Stack, Form, Card } from "react-bootstrap";
-import { useTarea } from "../TareaLayout";
+import { useEffect, useState } from "react";
+import { Badge, Button, Card, Col, Form, Row, Stack } from "react-bootstrap";
+import ReactMarkdown from "react-markdown";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidV4 } from "uuid";
 import { Nota, TareaData } from "../../App";
-import ReactMarkdown from "react-markdown"
-import styles from './Tarea.module.css'
+import { useTarea } from "../TareaLayout";
+import styles from './Tarea.module.css';
 
 type TareaProps = {
     onDeletar: (id: string) => void;
@@ -14,17 +14,21 @@ type TareaProps = {
 };
 
 export function Tarea({ onDeletar, onUpdateTarea, notas }: TareaProps) {
+    // Obtener la tarea actual usando el hook useTarea
     const tarea = useTarea();
     const navigate = useNavigate();
 
+    // Estados para manejar las notas y la nueva nota a agregar
     const [tareaNotas, setTareaNotas] = useState<Nota[]>([]);
     const [novaNotaDescripcion, setNovaNotaDescripcion] = useState("");
 
+    // useEffect para cargar las notas de la tarea actual al montar el componente
     useEffect(() => {
         const savedNotas = notas.filter(nota => tarea.noteIds.includes(nota.id));
         setTareaNotas(savedNotas);
     }, [tarea.noteIds, notas]);
 
+    // Función para agregar una nueva nota a la tarea
     const handleAddNota = (descripcion: string) => {
         const newNota = { id: uuidV4(), descripcion };
         setTareaNotas(prevNotas => [...prevNotas, newNota]);
@@ -33,9 +37,10 @@ export function Tarea({ onDeletar, onUpdateTarea, notas }: TareaProps) {
             noteIds: [...tarea.noteIds, newNota.id],
             notas: [...tarea.notas || [], newNota],
         });
-        setNovaNotaDescripcion(""); // Limpa o estado da descrição da nova nota após adicionar
+        setNovaNotaDescripcion("");
     };
 
+    // Maneja el envío del formulario para agregar una nueva nota
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (novaNotaDescripcion.trim()) {
@@ -43,6 +48,7 @@ export function Tarea({ onDeletar, onUpdateTarea, notas }: TareaProps) {
         }
     };
 
+    // Función para eliminar una nota de la tarea
     const handleDeleteNota = (id: string) => {
         const updatedNotas = tareaNotas.filter(nota => nota.id !== id);
         setTareaNotas(updatedNotas);

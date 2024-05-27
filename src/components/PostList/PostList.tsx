@@ -10,18 +10,24 @@ type Post = {
 };
 
 export function PostsList() {
+    // Estados para almacenar los datos
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    // useEffect se ejecuta después de que el componente se monta
     useEffect(() => {
+        // Función asincrónica para obtener los posts desde una API
         const fetchPosts = async () => {
             try {
                 const response = await axios.get("https://jsonplaceholder.typicode.com/posts");
+                // Almacena los datos de los posts en el estado
                 setPosts(response.data);
             } catch (error) {
+                // Si hay un error, se guarda el mensaje en el estado
                 setError("Erro ao carregar os posts. Tente novamente mais tarde.");
             } finally {
+                // Independientemente del resultado, se desactiva el indicador de carga
                 setLoading(false);
             }
         };
@@ -29,6 +35,7 @@ export function PostsList() {
         fetchPosts();
     }, []);
 
+    // Función para reintentar obtener los posts en caso de error
     const handleRetry = () => {
         setLoading(true);
         setError(null);
@@ -47,6 +54,7 @@ export function PostsList() {
         fetchPosts();
     };
 
+    // Si está cargando, se muestra un spinner
     if (loading) {
         return (
             <Container className="text-center mt-5">
@@ -56,6 +64,7 @@ export function PostsList() {
         );
     }
 
+    // Si hay un error, se muestra un mensaje de error y un botón para reintentar
     if (error) {
         return (
             <Container className="text-center mt-5">
@@ -67,6 +76,7 @@ export function PostsList() {
         );
     }
 
+    // Si los posts se cargaron correctamente, se muestran en una lista
     return (
         <Container>
             <Link to="..">

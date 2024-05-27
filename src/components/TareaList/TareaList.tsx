@@ -9,7 +9,7 @@ type TareasSimplificada = {
     estados: Estado[];
     titulo: string;
     id: string;
-    vencimiento: string
+    vencimiento: string;
 };
 
 type TareaListProps = {
@@ -18,11 +18,12 @@ type TareaListProps = {
 };
 
 export function TareaList({ availableEstados, tareas }: TareaListProps) {
+    // Estados para los filtros y la paginación
     const [selectedEstado, setSelectedEstado] = useState<Estado[]>([]);
     const [titulo, setTitulo] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
 
-
+    // Filtra las tareas basadas en los estados seleccionados y el título
     const filteredTareas = useMemo(() => {
         return tareas.filter((tarea) => {
             return (
@@ -35,12 +36,15 @@ export function TareaList({ availableEstados, tareas }: TareaListProps) {
         });
     }, [titulo, selectedEstado, tareas]);
 
+    // Calcula el número total de páginas para la paginación
     const totalPages = Math.ceil(filteredTareas.length / 5);
 
+    // Maneja el cambio de página en la paginación
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
 
+    // Divide las tareas filtradas en páginas para la paginación
     const paginatedTareas = useMemo(() => {
         const startIndex = (currentPage - 1) * 5;
         const endIndex = startIndex + 5;
@@ -134,9 +138,12 @@ export function TareaList({ availableEstados, tareas }: TareaListProps) {
 }
 
 function TareaCard({ id, titulo, estados, vencimiento }: TareasSimplificada) {
+    // Estado para manejar si la tarea está finalizada
     const [finalizado, setFinalizado] = useState(false);
+    // Estado para deshabilitar el checkbox una vez finalizado
     const [checkboxDisabled, setCheckboxDisabled] = useState(false);
 
+    // Maneja el cambio del estado del checkbox
     const handleCheckboxChange = () => {
         if (!finalizado) {
             setFinalizado(true);
