@@ -1,3 +1,8 @@
+# Deployment
+
+```bash
+https://mis-tareas-psi.vercel.app/
+```
 # Tarea Manager
 
 Tarea Manager es una aplicación de gestión de tareas que permite a los usuarios crear, editar, eliminar y visualizar tareas. El proyecto utiliza React, React-Bootstrap para la interfaz de usuario, React-Router para la navegación y LocalStorage para la persistencia de datos en el navegador.
