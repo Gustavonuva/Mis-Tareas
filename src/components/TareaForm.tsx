@@ -122,7 +122,7 @@ export function TareaForm({
                     </Col>
                 </Row>
                 {/* Botones para enviar o cancelar el formulario */}
-                <Stack direction={{ base: "column", sm: "row" }} gap={2} className="justify-content-end">
+                <Stack className="d-flex flex-column flex-sm-row justify-content-end" gap={2}>
                     <Button type="submit">Guardar</Button>
                     <Link to="..">
                         <Button type="button" variant="outline-secondary">Cancelar</Button>
