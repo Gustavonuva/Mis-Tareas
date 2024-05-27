@@ -1,4 +1,3 @@
-// usersService.ts
 import axios from 'axios';
 
 export async function getUsersPosts(userId: number): Promise<any[]> {
